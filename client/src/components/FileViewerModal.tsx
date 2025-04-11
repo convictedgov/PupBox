@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { X, Download, Info } from "lucide-react";
+import { X, Download, Info, FileText, FileType as FilePdfIcon, File } from "lucide-react";
 import { FileType } from "@/types";
 import { formatFileSize, getFileType } from "@/lib/constants";
 import { useToast } from "@/hooks/use-toast";
@@ -76,13 +76,38 @@ const FileViewerModal = ({
                 src={`/api/files/${file.id}`} 
                 alt={file.originalName.toLowerCase()} 
                 className="max-w-full max-h-full object-contain"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.onerror = null; // Prevent infinite loop
+                  target.src = '/api/files/placeholder-image';
+                  target.alt = 'Image could not be loaded';
+                }}
               />
             </div>
           )}
           
           {fileType === 'video' && (
             <div className="max-h-[70vh] w-full">
-              <video controls className="max-w-full max-h-[70vh] mx-auto">
+              <video 
+                controls 
+                className="max-w-full max-h-[70vh] mx-auto"
+                onError={(e) => {
+                  const target = e.target as HTMLVideoElement;
+                  target.onerror = null; // Prevent infinite loop
+                  
+                  // Replace with error message
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.innerHTML = `<div class="flex flex-col items-center justify-center h-[40vh]">
+                      <p class="text-red-400 mb-2 lowercase">video playback error</p>
+                      <button class="bg-primary hover:bg-indigo-500 text-white lowercase px-4 py-2 rounded"
+                              onclick="window.open('/api/download/${file.id}', '_blank')">
+                        download to view
+                      </button>
+                    </div>`;
+                  }
+                }}
+              >
                 <source src={`/api/files/${file.id}`} type={file.mimeType} />
                 your browser does not support the video tag.
               </video>
@@ -91,8 +116,14 @@ const FileViewerModal = ({
           
           {fileType !== 'image' && fileType !== 'video' && (
             <div className="h-[70vh] flex flex-col items-center justify-center text-center p-8">
-              <div className="text-6xl text-gray-500 mb-6">
-                <i className={`fas fa-file-${fileType === 'pdf' ? 'pdf' : 'alt'}`}></i>
+              <div className="text-gray-500 mb-6">
+                {fileType === 'pdf' ? (
+                  <FilePdfIcon className="h-24 w-24" />
+                ) : fileType === 'document' ? (
+                  <FileText className="h-24 w-24" />
+                ) : (
+                  <File className="h-24 w-24" />
+                )}
               </div>
               <p className="text-gray-400 mb-4 lowercase">preview not available for this file type</p>
               <Button 
