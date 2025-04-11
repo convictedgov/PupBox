@@ -149,7 +149,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Set proper headers for file type and caching
       res.setHeader("Content-Type", file.mimeType);
-      res.setHeader("Content-Disposition", `inline; filename="${file.originalName}"`);
       res.setHeader("Cache-Control", "public, max-age=31536000");
       res.setHeader("Last-Modified", file.uploadedAt);
       
