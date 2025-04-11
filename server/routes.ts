@@ -147,8 +147,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ error: "File not found on disk" });
       }
 
+      // Set proper headers for file type and caching
       res.setHeader("Content-Type", file.mimeType);
-      res.setHeader("Content-Disposition", `attachment; filename="${file.originalName}"`);
+      res.setHeader("Content-Disposition", `inline; filename="${file.originalName}"`);
+      res.setHeader("Cache-Control", "public, max-age=31536000");
+      res.setHeader("Last-Modified", file.uploadedAt);
+      
+      // Add metadata headers
+      res.setHeader("X-File-Name", file.originalName);
+      res.setHeader("X-File-Size", file.size);
+      res.setHeader("X-File-Type", file.mimeType);
+      
       fs.createReadStream(filePath).pipe(res);
     } catch (error) {
       console.error("Error downloading file:", error);
