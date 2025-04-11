@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased text-foreground;
+    background-color: hsl(222.2 47.4% 11.2%);
+    background-image: url('https://wallpapercave.com/wp/wp11962529.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(18, 24, 38, 0.7); /* 30% opacity dark overlay */
+    backdrop-filter: blur(8px);
+    z-index: -1;
+  }
+
+  .file-card {
+    transition: all 0.2s ease;
+  }
+  
+  .file-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  }
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+}
