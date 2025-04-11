@@ -102,7 +102,16 @@ export const extractMetadata = async (filePath: string, fileType: string): Promi
   }
 };
 
-// Generate a random ID for files
+// Generate a random ID for files with more entropy
 export const generateFileId = (): string => {
-  return crypto.randomBytes(8).toString('hex');
+  // Mix different character sets for greater randomness
+  const timestamp = Date.now().toString(36);
+  const randomHex = crypto.randomBytes(16).toString('hex');
+  const randomB64 = crypto.randomBytes(8).toString('base64url');
+  
+  // Combine and shuffle the different parts
+  const combined = `${timestamp}-${randomHex}-${randomB64}`;
+  
+  // Ensure we have a reasonable length but still highly random
+  return combined.substring(0, 32);
 };

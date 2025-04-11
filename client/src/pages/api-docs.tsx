@@ -47,34 +47,34 @@ print(response.json())`,
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <section id="api" className="bg-zinc-900 rounded-xl p-6 mb-12">
-        <h2 className="text-2xl font-semibold mb-6 text-white">API Documentation</h2>
+      <section id="api" className="bg-black border border-gray-800 rounded-lg p-6 mb-12">
+        <h2 className="text-2xl font-semibold mb-6 text-white lowercase">api documentation</h2>
         
         <Tabs defaultValue="upload" onValueChange={setActiveTab}>
           <TabsList className="border-b border-gray-700 bg-transparent mb-4">
             <TabsTrigger 
               value="upload" 
-              className={`${activeTab === 'upload' ? 'text-primary border-b-2 border-primary' : 'text-gray-400 hover:text-gray-300'} pb-2`}
+              className={`${activeTab === 'upload' ? 'text-primary border-b-2 border-primary' : 'text-gray-400 hover:text-gray-300'} pb-2 lowercase`}
             >
-              Upload
+              upload
             </TabsTrigger>
             <TabsTrigger 
               value="download" 
-              className={`${activeTab === 'download' ? 'text-primary border-b-2 border-primary' : 'text-gray-400 hover:text-gray-300'} pb-2`}
+              className={`${activeTab === 'download' ? 'text-primary border-b-2 border-primary' : 'text-gray-400 hover:text-gray-300'} pb-2 lowercase`}
             >
-              Download
+              download
             </TabsTrigger>
             <TabsTrigger 
               value="metadata" 
-              className={`${activeTab === 'metadata' ? 'text-primary border-b-2 border-primary' : 'text-gray-400 hover:text-gray-300'} pb-2`}
+              className={`${activeTab === 'metadata' ? 'text-primary border-b-2 border-primary' : 'text-gray-400 hover:text-gray-300'} pb-2 lowercase`}
             >
-              Metadata
+              metadata
             </TabsTrigger>
             <TabsTrigger 
               value="list" 
-              className={`${activeTab === 'list' ? 'text-primary border-b-2 border-primary' : 'text-gray-400 hover:text-gray-300'} pb-2`}
+              className={`${activeTab === 'list' ? 'text-primary border-b-2 border-primary' : 'text-gray-400 hover:text-gray-300'} pb-2 lowercase`}
             >
-              List
+              list
             </TabsTrigger>
           </TabsList>
           
@@ -133,7 +133,7 @@ Content-Type: multipart/form-data
                       onClick={() => setActiveCode("javascript")}
                       className={activeCode === "javascript" ? "bg-primary text-white" : "text-gray-400 hover:text-gray-300"}
                     >
-                      JavaScript
+                      javascript
                     </Button>
                     <Button 
                       variant={activeCode === "python" ? "default" : "ghost"}
@@ -141,7 +141,7 @@ Content-Type: multipart/form-data
                       onClick={() => setActiveCode("python")}
                       className={activeCode === "python" ? "bg-primary text-white" : "text-gray-400 hover:text-gray-300"}
                     >
-                      Python
+                      python
                     </Button>
                     <Button 
                       variant={activeCode === "curl" ? "default" : "ghost"}
@@ -149,7 +149,7 @@ Content-Type: multipart/form-data
                       onClick={() => setActiveCode("curl")}
                       className={activeCode === "curl" ? "bg-primary text-white" : "text-gray-400 hover:text-gray-300"}
                     >
-                      cURL
+                      curl
                     </Button>
                   </div>
                   <Button 

@@ -149,30 +149,30 @@ const FileUploadModal = ({ isOpen, onClose }: FileUploadModalProps) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">
-      <div className="bg-zinc-900 rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto mx-4">
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-90">
+      <div className="bg-black border border-gray-800 rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto mx-4">
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-white">Upload File</h2>
+            <h2 className="text-xl font-semibold text-white lowercase">upload file</h2>
             <Button variant="ghost" size="icon" onClick={onClose} className="text-gray-400 hover:text-white">
               <X className="h-5 w-5" />
             </Button>
           </div>
           
           <div className="mb-4">
-            <Label htmlFor="uploadKey" className="text-gray-300">Upload Key</Label>
+            <Label htmlFor="uploadKey" className="text-gray-300 lowercase">upload key</Label>
             <Input 
               id="uploadKey"
               type="password" 
-              placeholder="Enter your upload key" 
+              placeholder="enter your upload key" 
               value={uploadKey}
               onChange={(e) => setUploadKey(e.target.value)}
-              className="mt-1 bg-zinc-800 border border-gray-700 text-white placeholder-gray-500"
+              className="mt-1 bg-black border border-gray-700 text-white placeholder-gray-500 lowercase"
             />
           </div>
           
           <div 
-            className="border-2 border-dashed border-gray-700 bg-zinc-800 rounded-lg p-8 mb-4 text-center cursor-pointer hover:border-primary transition-colors"
+            className="border-2 border-dashed border-gray-700 bg-black rounded-lg p-8 mb-4 text-center cursor-pointer hover:border-primary transition-colors"
             onDragOver={handleDragOver}
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
@@ -180,10 +180,10 @@ const FileUploadModal = ({ isOpen, onClose }: FileUploadModalProps) => {
             onClick={handleBrowseClick}
           >
             <Upload className="h-10 w-10 text-gray-500 mx-auto mb-3" />
-            <p className="text-gray-300 mb-2">Drag and drop your file here</p>
-            <p className="text-gray-500 text-sm mb-3">or</p>
-            <Button className="bg-primary hover:bg-indigo-500 text-white font-medium">
-              <FolderOpen className="h-4 w-4 mr-2" /> Browse Files
+            <p className="text-gray-300 mb-2 lowercase">drag and drop your file here</p>
+            <p className="text-gray-500 text-sm mb-3 lowercase">or</p>
+            <Button className="bg-primary hover:bg-indigo-500 text-white font-medium lowercase">
+              <FolderOpen className="h-4 w-4 mr-2" /> browse files
             </Button>
             <input 
               type="file" 
@@ -192,8 +192,8 @@ const FileUploadModal = ({ isOpen, onClose }: FileUploadModalProps) => {
               className="hidden"
             />
             {file && (
-              <div className="mt-4 text-sm text-gray-300">
-                Selected: {file.name} ({formatFileSize(file.size)})
+              <div className="mt-4 text-sm text-gray-300 lowercase">
+                selected: {file.name.toLowerCase()} ({formatFileSize(file.size)})
               </div>
             )}
           </div>
@@ -201,35 +201,35 @@ const FileUploadModal = ({ isOpen, onClose }: FileUploadModalProps) => {
           {uploadStatus === "progress" && (
             <div className="mb-4">
               <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-300">Uploading...</span>
+                <span className="text-gray-300 lowercase">uploading...</span>
                 <span className="text-gray-300">{uploadProgress}%</span>
               </div>
               <Progress value={uploadProgress} className="h-2 mb-2" />
-              <div className="text-xs text-gray-500">
-                {file?.name} - {formatFileSize(file ? (file.size * uploadProgress / 100) : 0)} / {formatFileSize(file?.size || 0)}
+              <div className="text-xs text-gray-500 lowercase">
+                {file?.name.toLowerCase()} - {formatFileSize(file ? (file.size * uploadProgress / 100) : 0)} / {formatFileSize(file?.size || 0)}
               </div>
             </div>
           )}
           
           {uploadStatus === "success" && (
-            <div className="mb-4 bg-green-900/20 border border-green-800 text-green-400 rounded-lg p-3">
+            <div className="mb-4 bg-black border border-green-800 text-green-400 rounded-lg p-3">
               <div className="flex items-start">
                 <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2" />
                 <div>
-                  <h3 className="font-medium">Upload Complete!</h3>
-                  <p className="text-sm">Your file has been uploaded successfully.</p>
+                  <h3 className="font-medium lowercase">upload complete!</h3>
+                  <p className="text-sm lowercase">your file has been uploaded successfully.</p>
                 </div>
               </div>
             </div>
           )}
           
           {uploadStatus === "error" && (
-            <div className="mb-4 bg-red-900/20 border border-red-800 text-red-400 rounded-lg p-3">
+            <div className="mb-4 bg-black border border-red-800 text-red-400 rounded-lg p-3">
               <div className="flex items-start">
                 <AlertCircle className="h-5 w-5 text-red-400 mt-0.5 mr-2" />
                 <div>
-                  <h3 className="font-medium">Upload Failed</h3>
-                  <p className="text-sm">{errorMessage}</p>
+                  <h3 className="font-medium lowercase">upload failed</h3>
+                  <p className="text-sm lowercase">{errorMessage.toLowerCase()}</p>
                 </div>
               </div>
             </div>
@@ -239,17 +239,17 @@ const FileUploadModal = ({ isOpen, onClose }: FileUploadModalProps) => {
             <Button 
               variant="outline" 
               onClick={handleCancel}
-              className="border-gray-700 hover:bg-gray-800 text-gray-300 mr-2"
+              className="border-gray-700 hover:bg-black text-gray-300 mr-2 lowercase"
               disabled={isUploading}
             >
-              Cancel
+              cancel
             </Button>
             <Button 
               onClick={handleUpload}
-              className="bg-primary hover:bg-indigo-500 text-white"
+              className="bg-primary hover:bg-indigo-500 text-white lowercase"
               disabled={isUploading || !file}
             >
-              {isUploading ? "Uploading..." : "Upload"}
+              {isUploading ? "uploading..." : "upload"}
             </Button>
           </div>
         </div>

@@ -21,12 +21,12 @@ const FileCard = ({ file, onView, onDownload }: FileCardProps) => {
   };
 
   return (
-    <div className="file-card bg-zinc-900 rounded-xl overflow-hidden">
-      <div className="relative aspect-video bg-zinc-800 cursor-pointer" onClick={handleView}>
+    <div className="file-card bg-black border border-gray-800 rounded-lg overflow-hidden">
+      <div className="relative aspect-video bg-black cursor-pointer" onClick={handleView}>
         {fileType === 'image' && (
           <img 
             src={`/api/files/${file.id}/thumbnail`} 
-            alt={file.originalName} 
+            alt={file.originalName.toLowerCase()} 
             className="w-full h-full object-cover"
           />
         )}
@@ -35,7 +35,7 @@ const FileCard = ({ file, onView, onDownload }: FileCardProps) => {
           <>
             <img 
               src={`/api/files/${file.id}/thumbnail`} 
-              alt={file.originalName} 
+              alt={file.originalName.toLowerCase()} 
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 flex items-center justify-center">
@@ -55,7 +55,7 @@ const FileCard = ({ file, onView, onDownload }: FileCardProps) => {
         )}
         
         <div className="absolute top-2 right-2">
-          <span className="bg-zinc-900/70 text-xs font-medium px-2 py-1 rounded">
+          <span className="bg-black text-xs font-medium px-2 py-1 rounded border border-gray-800">
             {formatFileSize(file.size)}
           </span>
         </div>
@@ -63,11 +63,11 @@ const FileCard = ({ file, onView, onDownload }: FileCardProps) => {
       
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="font-medium truncate text-white" title={file.originalName}>
-            {file.originalName}
+          <h3 className="font-medium truncate text-white lowercase" title={file.originalName.toLowerCase()}>
+            {file.originalName.toLowerCase()}
           </h3>
-          <span className="text-xs text-gray-400">
-            {getTimeAgo(new Date(file.uploadedAt))}
+          <span className="text-xs text-gray-400 lowercase">
+            {getTimeAgo(new Date(file.uploadedAt)).toLowerCase()}
           </span>
         </div>
         
