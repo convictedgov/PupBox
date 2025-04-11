@@ -22,10 +22,11 @@ export interface IStorage {
   ensureDirectories(): void;
 }
 
-export class MemStorage implements IStorage {
+export class FileStorage implements IStorage {
   private files: Map<string, FileWithMetadata>;
   private uploadsDir: string;
   private thumbsDir: string;
+  private metadataFile: string;
   
   constructor() {
     this.files = new Map();
@@ -33,8 +34,38 @@ export class MemStorage implements IStorage {
     // Set up directories for file storage
     this.uploadsDir = path.join(process.cwd(), 'uploads');
     this.thumbsDir = path.join(process.cwd(), 'uploads', 'thumbnails');
+    this.metadataFile = path.join(process.cwd(), 'uploads', 'metadata.json');
     
     this.ensureDirectories();
+    this.loadMetadata();
+  }
+  
+  private loadMetadata(): void {
+    try {
+      if (fs.existsSync(this.metadataFile)) {
+        const data = fs.readFileSync(this.metadataFile, 'utf8');
+        const filesArray = JSON.parse(data) as FileWithMetadata[];
+        
+        // Clear existing map and reload from file
+        this.files.clear();
+        filesArray.forEach(file => {
+          this.files.set(file.id, file);
+        });
+        
+        console.log(`Loaded ${filesArray.length} files from metadata.`);
+      }
+    } catch (error) {
+      console.error('Error loading metadata:', error);
+    }
+  }
+  
+  private saveMetadata(): void {
+    try {
+      const filesArray = Array.from(this.files.values());
+      fs.writeFileSync(this.metadataFile, JSON.stringify(filesArray, null, 2), 'utf8');
+    } catch (error) {
+      console.error('Error saving metadata:', error);
+    }
   }
   
   ensureDirectories(): void {
@@ -66,17 +97,19 @@ export class MemStorage implements IStorage {
   }
   
   async createFile(fileData: Omit<FileWithMetadata, 'id' | 'views' | 'downloads'>): Promise<FileWithMetadata> {
-    const id = crypto.randomBytes(8).toString('hex');
+    // Generate a longer, more random ID
+    const id = crypto.randomBytes(12).toString('hex');
     
     const newFile: FileWithMetadata = {
       id,
       ...fileData,
       views: 0,
       downloads: 0,
-      uploadedAt: new Date().toISOString(),
+      uploadedAt: new Date(),
     };
     
     this.files.set(id, newFile);
+    this.saveMetadata(); // Save to disk
     return newFile;
   }
   
@@ -89,6 +122,7 @@ export class MemStorage implements IStorage {
     
     const updatedFile = { ...file, ...updates };
     this.files.set(id, updatedFile);
+    this.saveMetadata(); // Save to disk
     
     return updatedFile;
   }
@@ -112,6 +146,8 @@ export class MemStorage implements IStorage {
       } catch (error) {
         console.error('Error deleting file from disk:', error);
       }
+      
+      this.saveMetadata(); // Save to disk
     }
     
     return deleted;
@@ -123,6 +159,7 @@ export class MemStorage implements IStorage {
     if (file) {
       file.views += 1;
       this.files.set(id, file);
+      this.saveMetadata(); // Save to disk
     }
   }
   
@@ -132,6 +169,7 @@ export class MemStorage implements IStorage {
     if (file) {
       file.downloads += 1;
       this.files.set(id, file);
+      this.saveMetadata(); // Save to disk
     }
   }
   
@@ -146,4 +184,4 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new FileStorage();
