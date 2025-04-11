@@ -17,10 +17,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         cb(null, path.join(process.cwd(), 'uploads'));
       },
       filename: function (req, file, cb) {
-        // Use the random ID as the filename
-        const fileId = generateFileId();
-        const extension = path.extname(file.originalname);
-        cb(null, fileId + extension);
+        const randomFileName = generateRandomFileName(file.originalname);
+        cb(null, randomFileName);
       }
     }),
     limits: {
