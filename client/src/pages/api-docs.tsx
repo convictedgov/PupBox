@@ -83,7 +83,7 @@ print(response.json())`,
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center">
                   <span className="bg-green-600 text-white text-xs font-medium px-2 py-1 rounded mr-2">POST</span>
-                  <h3 className="font-mono text-white">/api/upload</h3>
+                  <h3 className="font-mono text-white lowercase">/api/upload</h3>
                 </div>
                 <Button 
                   variant="ghost" 
@@ -94,10 +94,10 @@ print(response.json())`,
                   <Copy className="h-4 w-4" />
                 </Button>
               </div>
-              <p className="text-gray-400 mb-4">Upload a new file to the server with the required authentication key.</p>
+              <p className="text-gray-400 mb-4 lowercase">upload a new file to the server with the required authentication key.</p>
               
-              <div className="bg-zinc-800 rounded-lg p-4 mb-4">
-                <h4 className="text-sm font-semibold text-gray-300 mb-2">Request</h4>
+              <div className="bg-black border border-gray-800 rounded-lg p-4 mb-4">
+                <h4 className="text-sm font-semibold text-gray-300 mb-2 lowercase">request</h4>
                 <div className="font-mono text-sm text-gray-400 whitespace-pre overflow-x-auto">
 Content-Type: multipart/form-data
 
@@ -107,8 +107,8 @@ Content-Type: multipart/form-data
 }`}</div>
               </div>
               
-              <div className="bg-zinc-800 rounded-lg p-4">
-                <h4 className="text-sm font-semibold text-gray-300 mb-2">Response</h4>
+              <div className="bg-black border border-gray-800 rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-gray-300 mb-2 lowercase">response</h4>
                 <div className="font-mono text-sm text-gray-400 whitespace-pre overflow-x-auto">
 {`{
   "success": true,
@@ -123,8 +123,8 @@ Content-Type: multipart/form-data
             </div>
             
             <div className="mb-4">
-              <h3 className="text-lg font-semibold text-white mb-2">Code Example</h3>
-              <div className="bg-zinc-800 rounded-lg p-4">
+              <h3 className="text-lg font-semibold text-white mb-2 lowercase">code example</h3>
+              <div className="bg-black border border-gray-800 rounded-lg p-4">
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex space-x-2">
                     <Button 
@@ -184,16 +184,16 @@ Content-Type: multipart/form-data
                   <Copy className="h-4 w-4" />
                 </Button>
               </div>
-              <p className="text-gray-400 mb-4">Download a file by its ID. The response will include the appropriate Content-Disposition header.</p>
+              <p className="text-gray-400 mb-4 lowercase">download a file by its id. the response will include the appropriate content-disposition header.</p>
               
-              <div className="bg-zinc-800 rounded-lg p-4 mb-4">
-                <h4 className="text-sm font-semibold text-gray-300 mb-2">Request</h4>
+              <div className="bg-black border border-gray-800 rounded-lg p-4 mb-4">
+                <h4 className="text-sm font-semibold text-gray-300 mb-2 lowercase">request</h4>
                 <div className="font-mono text-sm text-gray-400 whitespace-pre overflow-x-auto">
 GET /api/download/6f7d2e5c8b9a</div>
               </div>
               
-              <div className="bg-zinc-800 rounded-lg p-4">
-                <h4 className="text-sm font-semibold text-gray-300 mb-2">Response</h4>
+              <div className="bg-black border border-gray-800 rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-gray-300 mb-2 lowercase">response</h4>
                 <div className="font-mono text-sm text-gray-400 whitespace-pre overflow-x-auto">
 Content-Type: [file MIME type]
 Content-Disposition: attachment; filename="example.jpg"
@@ -219,16 +219,16 @@ Content-Disposition: attachment; filename="example.jpg"
                   <Copy className="h-4 w-4" />
                 </Button>
               </div>
-              <p className="text-gray-400 mb-4">Get metadata information for a specific file.</p>
+              <p className="text-gray-400 mb-4 lowercase">get metadata information for a specific file.</p>
               
-              <div className="bg-zinc-800 rounded-lg p-4 mb-4">
-                <h4 className="text-sm font-semibold text-gray-300 mb-2">Request</h4>
+              <div className="bg-black border border-gray-800 rounded-lg p-4 mb-4">
+                <h4 className="text-sm font-semibold text-gray-300 mb-2 lowercase">request</h4>
                 <div className="font-mono text-sm text-gray-400 whitespace-pre overflow-x-auto">
 GET /api/files/6f7d2e5c8b9a/metadata</div>
               </div>
               
-              <div className="bg-zinc-800 rounded-lg p-4">
-                <h4 className="text-sm font-semibold text-gray-300 mb-2">Response</h4>
+              <div className="bg-black border border-gray-800 rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-gray-300 mb-2 lowercase">response</h4>
                 <div className="font-mono text-sm text-gray-400 whitespace-pre overflow-x-auto">
 {`{
   "id": "6f7d2e5c8b9a",
@@ -265,16 +265,16 @@ GET /api/files/6f7d2e5c8b9a/metadata</div>
                   <Copy className="h-4 w-4" />
                 </Button>
               </div>
-              <p className="text-gray-400 mb-4">Get a list of all uploaded files.</p>
+              <p className="text-gray-400 mb-4 lowercase">get a list of all uploaded files.</p>
               
-              <div className="bg-zinc-800 rounded-lg p-4 mb-4">
-                <h4 className="text-sm font-semibold text-gray-300 mb-2">Request</h4>
+              <div className="bg-black border border-gray-800 rounded-lg p-4 mb-4">
+                <h4 className="text-sm font-semibold text-gray-300 mb-2 lowercase">request</h4>
                 <div className="font-mono text-sm text-gray-400 whitespace-pre overflow-x-auto">
 GET /api/files</div>
               </div>
               
-              <div className="bg-zinc-800 rounded-lg p-4">
-                <h4 className="text-sm font-semibold text-gray-300 mb-2">Response</h4>
+              <div className="bg-black border border-gray-800 rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-gray-300 mb-2 lowercase">response</h4>
                 <div className="font-mono text-sm text-gray-400 whitespace-pre overflow-x-auto">
 {`[
   {
