@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import { generateRandomFileName } from "./utils/file-helpers";
 import { UPLOAD_KEY } from "../client/src/lib/constants";
 import { generateFileId, getFileType, extractMetadata, generateThumbnail } from "./utils/file-helpers";
 
