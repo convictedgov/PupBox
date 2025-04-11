@@ -61,6 +61,13 @@ export const extractVideoMetadata = async (filePath: string): Promise<FileMetada
   }
 };
 
+import fs from 'fs';
+import path from 'path';
+import crypto from 'crypto';
+import { FileMetadata } from '@shared/schema';
+import { promisify } from 'util';
+import { exec as execCallback } from 'child_process';
+
 // Generate a thumbnail for an image or video
 export const generateThumbnail = async (
   sourceFilePath: string, 
