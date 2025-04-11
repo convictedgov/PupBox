@@ -99,7 +99,9 @@ export class FileStorage implements IStorage {
   }
   
   getFilePath(id: string): string {
-    return path.join(this.uploadsDir, id);
+    const file = this.files.get(id);
+    if (!file) return path.join(this.uploadsDir, id);
+    return path.join(this.uploadsDir, file.fileName);
   }
   
   getThumbPath(id: string): string {

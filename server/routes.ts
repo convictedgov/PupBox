@@ -142,7 +142,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await storage.incrementDownloads(fileId);
 
       // Send the file as an attachment
-      const filePath = storage.getFilePath(fileId + path.extname(file.originalName));
+      const filePath = storage.getFilePath(fileId);
       if (!fs.existsSync(filePath)) {
         return res.status(404).json({ error: "File not found on disk" });
       }
