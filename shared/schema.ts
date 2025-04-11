@@ -49,8 +49,9 @@ export interface FileMetadata {
   [key: string]: any;
 }
 
-export interface FileWithMetadata extends Omit<File, 'metadata'> {
+export interface FileWithMetadata extends Omit<File, 'metadata' | 'uploadedAt'> {
   metadata?: FileMetadata;
+  uploadedAt: Date | string;
 }
 
 export interface StatsData {

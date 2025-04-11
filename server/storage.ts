@@ -48,7 +48,12 @@ export class FileStorage implements IStorage {
         
         // Clear existing map and reload from file
         this.files.clear();
+        
+        // Convert string dates back to Date objects
         filesArray.forEach(file => {
+          if (typeof file.uploadedAt === 'string') {
+            file.uploadedAt = new Date(file.uploadedAt);
+          }
           this.files.set(file.id, file);
         });
         
@@ -62,7 +67,22 @@ export class FileStorage implements IStorage {
   private saveMetadata(): void {
     try {
       const filesArray = Array.from(this.files.values());
-      fs.writeFileSync(this.metadataFile, JSON.stringify(filesArray, null, 2), 'utf8');
+      
+      // Convert dates to ISO strings for JSON serialization
+      const serializableFiles = filesArray.map(file => {
+        // Create a new object to avoid modifying the original
+        const serializableFile = { ...file };
+        
+        // Convert Date to string if it's a Date object
+        if (serializableFile.uploadedAt instanceof Date) {
+          serializableFile.uploadedAt = serializableFile.uploadedAt.toISOString();
+        }
+        
+        return serializableFile;
+      });
+      
+      fs.writeFileSync(this.metadataFile, JSON.stringify(serializableFiles, null, 2), 'utf8');
+      console.log(`Saved ${serializableFiles.length} files to metadata.`);
     } catch (error) {
       console.error('Error saving metadata:', error);
     }

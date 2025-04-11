@@ -194,7 +194,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         fileName: filename,
         mimeType: mimetype,
         size: size,
-        uploadedAt: new Date().toISOString(),
+        uploadedAt: new Date(),
         metadata
       });
 
