@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Code, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UPLOAD_KEY } from "@/lib/constants";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ApiKeyAuth from "@/components/ApiKeyAuth";
 
 const ApiDocs = () => {
   const [activeTab, setActiveTab] = useState("upload");
   const [activeCode, setActiveCode] = useState("javascript");
   const [copied, setCopied] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const codeExamples = {
     javascript: `const form = new FormData();
@@ -44,6 +46,24 @@ print(response.json())`,
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  // Check if user is already authenticated from a previous session
+  useEffect(() => {
+    const authStatus = localStorage.getItem("pupbox_api_auth");
+    if (authStatus === "authenticated") {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  // Save authentication status
+  const handleAuthenticated = () => {
+    setIsAuthenticated(true);
+    localStorage.setItem("pupbox_api_auth", "authenticated");
+  };
+
+  if (!isAuthenticated) {
+    return <ApiKeyAuth onAuthenticated={handleAuthenticated} />;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
