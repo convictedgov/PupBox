@@ -3,7 +3,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { X, Upload, FolderOpen, CheckCircle, AlertCircle } from "lucide-react";
+import { X, Upload, FolderOpen, CheckCircle, AlertCircle, Copy, Check } from "lucide-react";
 import { UPLOAD_KEY, formatFileSize } from "@/lib/constants";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
@@ -21,6 +21,8 @@ const FileUploadModal = ({ isOpen, onClose }: FileUploadModalProps) => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState<"idle" | "progress" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [fileUrl, setFileUrl] = useState("");
+  const [isCopied, setIsCopied] = useState(false);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -66,7 +68,19 @@ const FileUploadModal = ({ isOpen, onClose }: FileUploadModalProps) => {
     setIsUploading(false);
     setUploadStatus("idle");
     setErrorMessage("");
+    setFileUrl("");
+    setIsCopied(false);
     if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleCopyClick = () => {
+    navigator.clipboard.writeText(fileUrl);
+    setIsCopied(true);
+    toast({
+      title: "URL copied",
+      description: "File URL has been copied to clipboard",
+    });
+    setTimeout(() => setIsCopied(false), 2000);
   };
 
   const handleCancel = () => {
@@ -122,6 +136,18 @@ const FileUploadModal = ({ isOpen, onClose }: FileUploadModalProps) => {
         throw new Error(errorData || "Upload failed");
       }
 
+      // Get the response data
+      const data = await response.json();
+      
+      // Create the full URL including domain
+      const baseUrl = window.location.origin;
+      const fullUrl = `${baseUrl}${data.downloadUrl}`;
+      
+      // Set the file URL and copy to clipboard
+      setFileUrl(fullUrl);
+      navigator.clipboard.writeText(fullUrl);
+      setIsCopied(true);
+
       // Set final progress and success state
       setUploadProgress(100);
       setUploadStatus("success");
@@ -131,15 +157,11 @@ const FileUploadModal = ({ isOpen, onClose }: FileUploadModalProps) => {
       
       // Show success toast
       toast({
-        title: "Upload Complete",
-        description: "Your file has been uploaded successfully.",
+        title: "URL copied to clipboard",
+        description: "Your file has been uploaded and the URL copied to clipboard.",
       });
-
-      // Reset and close modal after short delay
-      setTimeout(() => {
-        resetUpload();
-        onClose();
-      }, 2000);
+      
+      // Don't close the modal automatically - let the user copy the URL again if needed
     } catch (error) {
       console.error("Upload error:", error);
       setUploadStatus("error");
@@ -215,9 +237,26 @@ const FileUploadModal = ({ isOpen, onClose }: FileUploadModalProps) => {
             <div className="mb-4 bg-black border border-green-800 text-green-400 rounded-lg p-3">
               <div className="flex items-start">
                 <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-2" />
-                <div>
+                <div className="w-full">
                   <h3 className="font-medium lowercase">upload complete!</h3>
-                  <p className="text-sm lowercase">your file has been uploaded successfully.</p>
+                  <p className="text-sm lowercase mb-2">your file has been uploaded and the url copied to clipboard.</p>
+                  
+                  <div className="mt-2 flex items-center bg-black border border-gray-700 rounded p-2">
+                    <input 
+                      type="text"
+                      value={fileUrl}
+                      readOnly
+                      className="w-full bg-transparent text-white text-sm font-mono focus:outline-none"
+                    />
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleCopyClick}
+                      className="ml-2 text-gray-300 hover:text-white"
+                    >
+                      {isCopied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
