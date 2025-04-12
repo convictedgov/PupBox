@@ -157,16 +157,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.setHeader("X-File-Type", file.mimeType);
       
       // Add OpenGraph meta tags for Discord embeds
-      res.setHeader("Content-Disposition", `inline; filename="${file.originalName}"`);
-      res.setHeader("X-Content-Type-Options", "nosniff");
-      
-      if (file.mimeType.startsWith('image/')) {
-        res.setHeader("Link", 
-          `<${file.mimeType.startsWith('image/') ? `/api/files/${file.id}` : '/default-file-icon.png'}>; rel="canonical", ` +
-          `<${file.mimeType.startsWith('image/') ? `/api/files/${file.id}` : '/default-file-icon.png'}>; rel="og:image", ` +
-          `<${file.originalName}>; rel="og:title"`
-        );
-      }
+      res.setHeader("Content-Type", "text/html");
+      const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta property="og:title" content="${file.originalName}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/api/files/${file.id}" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="theme-color" content="#000000" />
+  <meta http-equiv="refresh" content="0;url=/api/files/${file.id}">
+</head>
+<body>
+  Redirecting to image...
+</body>
+</html>`;
+      res.send(html);
       
       fs.createReadStream(filePath).pipe(res);
     } catch (error) {
