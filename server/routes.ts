@@ -157,12 +157,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.setHeader("X-File-Type", file.mimeType);
       
       // Add OpenGraph meta tags for Discord embeds
-      res.setHeader("og:title", file.originalName);
-      res.setHeader("og:description", `File size: ${file.size} bytes`);
-      res.setHeader("og:type", "website");
-      res.setHeader("og:image", file.mimeType.startsWith('image/') ? `/api/files/${file.id}` : '/default-file-icon.png');
-      res.setHeader("og:image:width", "1200");
-      res.setHeader("og:image:height", "630");
+      res.setHeader("Content-Disposition", `inline; filename="${file.originalName}"`);
+      res.setHeader("X-Content-Type-Options", "nosniff");
+      
+      if (file.mimeType.startsWith('image/')) {
+        res.setHeader("Link", 
+          `<${file.mimeType.startsWith('image/') ? `/api/files/${file.id}` : '/default-file-icon.png'}>; rel="canonical", ` +
+          `<${file.mimeType.startsWith('image/') ? `/api/files/${file.id}` : '/default-file-icon.png'}>; rel="og:image", ` +
+          `<${file.originalName}>; rel="og:title"`
+        );
+      }
       
       fs.createReadStream(filePath).pipe(res);
     } catch (error) {
