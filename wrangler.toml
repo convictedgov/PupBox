@@ -1,9 +1,10 @@
 name = "pupbox"
 compatibility_date = "2025-07-17"
 
+main = "dist/index.js"  # This is your built Worker entry
+
 [build]
 command = "npm run build"
-cwd = "client"
 
 [site]
-bucket = "client/dist"
+bucket = "dist/public"
