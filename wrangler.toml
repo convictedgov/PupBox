@@ -1,0 +1,9 @@
+name = "pupbox"
+compatibility_date = "2025-07-17"
+
+[build]
+command = "npm run build"
+cwd = "client"
+
+[site]
+bucket = "client/dist"
